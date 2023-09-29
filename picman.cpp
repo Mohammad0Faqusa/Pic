@@ -316,14 +316,24 @@ class Game {
 
     void removeBill (int posBill) { 
         position *newArrBill = new position[--indexBill] ; 
+
+        
+
+        if (indexBill == 0 ) {
+            for (int i = 0 ; i < posBill ; i++ ) { 
+            newArrBill[i] = arrBill[i + 1] ; 
+        }
+        }else {
+
         for (int i = 0 ; i < posBill ; i++ ) { 
             newArrBill[i] = arrBill[i] ; 
 
         }
         if (posBill < indexBill ) 
-        for (int i = posBill + 1 ; i < indexBill ; i++ ) { 
-             newArrBill[i] = arrBill[i] ; 
+        for (int i = posBill ; i < indexBill ; i++ ) { 
+             newArrBill[i] = arrBill[i + 1] ; 
 
+        }
         }
 
         delete [] arrBill ; 
