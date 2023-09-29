@@ -266,6 +266,8 @@ class Game {
         powerCount -- ; 
         if (arr[picMan.x][picMan.y] == 'M') { 
             arr[picMan.x][picMan.y] = 'P' ;
+            monster.x = -1 ;  // to leave the monster from the array 
+            monster.y = -1 ; 
 
         } else if (arr[picMan.x][picMan.y] == 'B') { 
             arr[picMan.x][picMan.y] = 'P' ;
@@ -306,6 +308,7 @@ class Game {
                 cin >> x ; 
             }
 
+            if(!(monster.x == -1 && monster.y == -1))
             monsterMove() ; 
             
             picManMove(x) ; 
