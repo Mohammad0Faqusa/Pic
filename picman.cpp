@@ -10,9 +10,10 @@ class Game {
     public : 
     
     char arr [7][7]; 
-   position monster ; 
-   position picMan ; 
-   int numberOfBills ; 
+    char directions[4]   = {'r' , 'l' , 'u' , 'd'} ; 
+    position monster ; 
+    position picMan ; 
+    int numOfBills ; 
 
    
 
@@ -81,17 +82,130 @@ class Game {
 
     }
 
+    void hintKeyPress() { 
+        cout << "-----------------------------------------------" << endl; 
+        cout << "to move right press (r)" << endl ; 
+        cout << "to move left press (l)" << endl ; 
+        cout << "to move up press (u)" << endl ; 
+        cout << "to move d press (d)" << endl ; 
+        cout << "-----------------------------------------------"<< endl ;
+    }
+
+    bool keyValidation (char x) { 
+        if (x == 'r' ||x == 'l' ||x == 'u' ||x == 'd' )
+        return true ; 
+        else 
+        return false ; 
+    }
+
     void initialization() { 
         printDots() ; 
         printBills() ; 
         printMonster() ; 
         printPicMan() ; 
-        display() ; 
+        hintKeyPress() ; 
+        
+        
+    }
+
+    int min(int x , int y ) { 
+        if (x > y) 
+        return y ; 
+        else 
+        return x ; 
+
+    }
+    int max (int x , int y ) { 
+        if (x > y ) 
+        return x ; 
+        else 
+        return y ; 
+    }
+
+    bool validPosition (int x ,int  y ) { 
+        if (min(x , y) < 0)
+        return false ; 
+        if (max(x ,y) > 6) 
+        return false ; 
+
+        return true ; 
+        
     }
  
+    void monsterMove() { 
+        char monsterDir = directions[rand()%4] ; 
+
+        switch (monsterDir) { 
+
+            case 'r' : 
+            
+                if ( !validPosition((monster.x + 1) , monster.y ) && arr[monster.x + 1][monster.y] == 'B'  )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.x += 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
+                break ; 
+
+                case 'l' : 
+                if ( !validPosition((monster.x - 1) , monster.y )  && arr[monster.x - 1][monster.y] == 'B'  )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.x -= 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
+                break ; 
+
+                case 'u' : 
+                if ( !validPosition((monster.x) , (monster.y +1) ) && arr[monster.x][monster.y + 1] == 'B'  )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.y += 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
+                break ;
+                case 'd' : 
+                if ( !validPosition((monster.x) , (monster.y -1) ) && (arr[monster.x][monster.y - 1] == 'B')  )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.y -= 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
+                break ; 
+        }
+
+        
+
+        
+    }
+    void play() { 
+        while (true) { 
+            
+            display() ; 
+            
+            cout << "Press the key" ; 
+            char x ; 
+            cin >> x ; 
+            while (!keyValidation(x)) { 
+                cout << "please insert valid input" << endl ; 
+                hintKeyPress() ; 
+            }
+
+
+            
+
+
+        }
+    }
  
     Game () { 
         initialization() ; 
+
+
 
     }
 
@@ -99,6 +213,7 @@ class Game {
 }; 
 
 int main () { 
-
-Game *pic = new Game() ; 
+int num [2][2] ; 
+cout << num[1][3] ; 
+// Game *pic = new Game() ; 
 }
