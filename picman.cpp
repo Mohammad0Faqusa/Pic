@@ -139,7 +139,7 @@ class Game {
 
             case 'r' : 
             
-                if ( !validPosition((monster.x - 1) , monster.y ) && arr[monster.x - 1][monster.y] == 'B'  )
+                if ( !validPosition((monster.x + 1) , monster.y ) || arr[monster.x + 1][monster.y] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -149,7 +149,7 @@ class Game {
                 break ; 
 
                 case 'l' : 
-                if ( !validPosition((monster.x + 1) , monster.y )  && arr[monster.x + 1][monster.y] == 'B'  )
+                if ( !validPosition((monster.x + 1) , monster.y )  || arr[monster.x + 1][monster.y] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -159,7 +159,7 @@ class Game {
                 break ; 
 
                 case 'u' : 
-                if ( !validPosition((monster.x) , (monster.y -1) ) && arr[monster.x][monster.y - 1] == 'B'  )
+                if ( !validPosition((monster.x) , (monster.y -1) ) || arr[monster.x][monster.y - 1] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -168,7 +168,7 @@ class Game {
                 }
                 break ;
                 case 'd' : 
-                if ( !validPosition((monster.x) , (monster.y +1) ) && (arr[monster.x][monster.y + 1] == 'B')  )
+                if ( !validPosition((monster.x) , (monster.y +1) ) || (arr[monster.x][monster.y + 1] == 'B')  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
