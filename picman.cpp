@@ -8,7 +8,7 @@ using namespace std;
 class Game { 
 
     public : 
-    
+    bool stopFlag = false ; 
     char arr [7][7]; 
     char directions[4]   = {'r' , 'l' , 'u' , 'd'} ; 
     position monster ; 
@@ -75,7 +75,7 @@ class Game {
     void display () { 
         for (int i = 0 ; i < 7 ; i++ ) {
             for (int j = 0 ; j < 7 ; j++ ) { 
-                cout << arr[i][j] << " "  ; 
+                cout << arr[j][i] << " "  ; 
                 
             }
             cout << endl ;}
@@ -92,7 +92,7 @@ class Game {
     }
 
     bool keyValidation (char x) { 
-        if (x == 'r' ||x == 'l' ||x == 'u' ||x == 'd' )
+        if (x == 'r' || x == 'l' || x == 'u' || x == 'd' )
         return true ; 
         else 
         return false ; 
@@ -139,17 +139,7 @@ class Game {
 
             case 'r' : 
             
-                if ( !validPosition((monster.x + 1) , monster.y ) && arr[monster.x + 1][monster.y] == 'B'  )
-                    monsterMove() ;
-                else{
-                arr[monster.x][monster.y] = '.' ; 
-                monster.x += 1 ; 
-                arr[monster.x][monster.y] = 'M' ; 
-                }
-                break ; 
-
-                case 'l' : 
-                if ( !validPosition((monster.x - 1) , monster.y )  && arr[monster.x - 1][monster.y] == 'B'  )
+                if ( !validPosition((monster.x - 1) , monster.y ) && arr[monster.x - 1][monster.y] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -158,45 +148,125 @@ class Game {
                 }
                 break ; 
 
-                case 'u' : 
-                if ( !validPosition((monster.x) , (monster.y +1) ) && arr[monster.x][monster.y + 1] == 'B'  )
+                case 'l' : 
+                if ( !validPosition((monster.x + 1) , monster.y )  && arr[monster.x + 1][monster.y] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
-                monster.y += 1 ; 
+                monster.x += 1 ; 
                 arr[monster.x][monster.y] = 'M' ; 
                 }
-                break ;
-                case 'd' : 
-                if ( !validPosition((monster.x) , (monster.y -1) ) && (arr[monster.x][monster.y - 1] == 'B')  )
+                break ; 
+
+                case 'u' : 
+                if ( !validPosition((monster.x) , (monster.y -1) ) && arr[monster.x][monster.y - 1] == 'B'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
                 monster.y -= 1 ; 
                 arr[monster.x][monster.y] = 'M' ; 
                 }
+                break ;
+                case 'd' : 
+                if ( !validPosition((monster.x) , (monster.y +1) ) && (arr[monster.x][monster.y + 1] == 'B')  )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.y += 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
                 break ; 
         }
 
-        
+
 
         
     }
+
+    void picManMove (char direction) { 
+        
+        while (!keyValidation(direction)) { 
+            cout << "invalid input, please press valid key" << endl ; 
+            hintKeyPress() ; 
+            cin >> direction ; 
+        }
+
+        switch(direction) { 
+            case 'r' : 
+            
+                if ( validPosition((picMan.x + 1) , picMan.y )) { 
+                    arr[picMan.x][picMan.y] = '.'; 
+                    picMan.x += 1 ;
+                }
+
+                break ; 
+
+                case 'l' : 
+            
+                if ( validPosition((picMan.x - 1) , picMan.y )) { 
+                    
+                    arr[picMan.x][picMan.y] = '.'; 
+                    picMan.x -= 1 ;
+                }
+
+                break ; 
+
+                case 'u' : 
+            
+                if ( validPosition((picMan.x) , (picMan.y - 1) )) { 
+                    arr[picMan.x][picMan.y] = '.' ;
+                    picMan.y -= 1 ;
+                }
+                break ; 
+
+                case 'd' : 
+
+                if ( validPosition((picMan.x) , (picMan.y +1 ) )) { 
+                    arr[picMan.x][picMan.y] = '.' ; 
+                    picMan.y += 1 ;
+                }
+                break ; 
+
+        }
+
+    if (arr[picMan.x][picMan.y] == 'M')  { 
+        cout << "You lost ! the monster has eaten you !" << endl ; 
+        display() ; 
+        stopFlag = true ; 
+        return ; 
+    } else if (arr[picMan.x][picMan.y] == 'B') { 
+        numOfBills-- ; 
+        arr[picMan.x][picMan.y] = 'P' ;
+        if (numOfBills == 0 ) {
+        cout << "You win!" << endl ; 
+        arr[picMan.x][picMan.y] = 'P'; 
+        display() ; 
+        stopFlag = true ; 
+        }
+    } else { 
+        arr[picMan.x][picMan.y] = 'P'; 
+    }
+
+    
+
+    }
     void play() { 
-        while (true) { 
+        while (!stopFlag) { 
             
             display() ; 
             
-            cout << "Press the key" ; 
+            cout << "Press a key" << endl ; 
             char x ; 
             cin >> x ; 
             while (!keyValidation(x)) { 
                 cout << "please insert valid input" << endl ; 
                 hintKeyPress() ; 
+                cin >> x ; 
             }
 
-
+            monsterMove() ; 
             
+            picManMove(x) ; 
 
 
         }
@@ -204,7 +274,7 @@ class Game {
  
     Game () { 
         initialization() ; 
-
+        play() ; 
 
 
     }
@@ -212,8 +282,6 @@ class Game {
 
 }; 
 
-int main () { 
-int num [2][2] ; 
-cout << num[1][3] ; 
-// Game *pic = new Game() ; 
+int main () {
+Game *pic = new Game() ; 
 }
