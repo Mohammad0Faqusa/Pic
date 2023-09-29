@@ -8,6 +8,7 @@ using namespace std;
 class Game { 
 
     public : 
+    int test ; 
     bool stopFlag = false ; 
     char arr [7][7]; 
     char directions[4]   = {'r' , 'l' , 'u' , 'd'} ; 
@@ -28,6 +29,7 @@ class Game {
     }
 
     void printBills() { 
+        
         numOfBills = 10 + rand()%20 ; 
         cout << "number of bills are " << numOfBills << endl ;  
         for (int i = 0 ; i < numOfBills ; i++ ) { 
@@ -93,7 +95,9 @@ class Game {
         }
     }
 
+
     void display () { 
+        cout << "here is the test " << ++ test ; 
         cout << "the number of Bills : "<< numOfBills << endl ; 
         cout << "Power Count :" << powerCount << endl ; 
 
@@ -252,13 +256,14 @@ class Game {
         return ; 
     }
 
-    if (arr[picMan.x][picMan.y] = 'S') { 
+    if (arr[picMan.x][picMan.y] == 'S') { 
         powerCount = 3 ; 
         arr[picMan.x][picMan.y] = 'P' ;
         return ; 
     }
+
     if (powerCount > 0 ) { 
-        
+        powerCount -- ; 
         if (arr[picMan.x][picMan.y] == 'M') { 
             arr[picMan.x][picMan.y] = 'P' ;
 
@@ -268,7 +273,6 @@ class Game {
         } else { 
             arr[picMan.x][picMan.y] = 'P' ;
         }
-        -- powerCount  ; 
 
     } else { 
         if (arr[picMan.x][picMan.y] == 'M') { 
@@ -312,7 +316,7 @@ class Game {
     }
  
     Game () { 
-
+        test = 0 ; 
         initialization() ; 
         play() ; 
     }
