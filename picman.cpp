@@ -82,7 +82,7 @@ class Game {
     }
 
     void initialization() { 
-printDots() ; 
+        printDots() ; 
         printBills() ; 
         printMonster() ; 
         printPicMan() ; 
@@ -91,7 +91,7 @@ printDots() ;
  
  
     Game () { 
-        
+        initialization() ; 
 
     }
 
