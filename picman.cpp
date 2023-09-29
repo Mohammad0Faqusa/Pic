@@ -15,6 +15,8 @@ class Game {
     position picMan ; 
     int numOfBills ; 
 
+    int powerCount ; 
+
    
 
     void printDots () { 
@@ -85,11 +87,17 @@ class Game {
             }
 
         arr[powerBill.x][powerBill.y] = 'S' ; 
+
+        powerCount = 0 ; 
             
         }
     }
 
     void display () { 
+        cout << "the number of Bills : "<< numOfBills << endl ; 
+        cout << "Power Count :" << powerCount << endl ; 
+
+
         for (int i = 0 ; i < 7 ; i++ ) {
             for (int j = 0 ; j < 7 ; j++ ) { 
                 cout << arr[j][i] << " "  ; 
@@ -211,61 +219,73 @@ class Game {
 
         switch(direction) { 
             case 'r' : 
-            
                 if ( validPosition((picMan.x + 1) , picMan.y )) { 
                     arr[picMan.x][picMan.y] = '.'; 
-                    picMan.x += 1 ;
-                }
-
+                    picMan.x += 1 ;}
                 break ; 
 
                 case 'l' : 
-            
                 if ( validPosition((picMan.x - 1) , picMan.y )) { 
-                    
                     arr[picMan.x][picMan.y] = '.'; 
-                    picMan.x -= 1 ;
-                }
-
-                break ; 
+                    picMan.x -= 1 ; }
+                    break ; 
 
                 case 'u' : 
-            
                 if ( validPosition((picMan.x) , (picMan.y - 1) )) { 
                     arr[picMan.x][picMan.y] = '.' ;
-                    picMan.y -= 1 ;
-                }
-                break ; 
+                    picMan.y -= 1 ;}
+                    break ; 
 
-                case 'd' : 
-
+                case 'd' :
                 if ( validPosition((picMan.x) , (picMan.y +1 ) )) { 
                     arr[picMan.x][picMan.y] = '.' ; 
-                    picMan.y += 1 ;
-                }
-                break ; 
+                    picMan.y += 1 ;}
+                    break ; 
 
         }
+    
+    if (numOfBills == 0 ) { 
 
-    if (arr[picMan.x][picMan.y] == 'M')  { 
-        cout << "You lost ! the monster has eaten you !" << endl ; 
         display() ; 
+        cout << "You Win!" << endl ; 
         stopFlag = true ; 
         return ; 
-    } else if (arr[picMan.x][picMan.y] == 'B') { 
-        numOfBills-- ; 
-        arr[picMan.x][picMan.y] = 'P' ;
-        if (numOfBills == 0 ) {
-        cout << "You win!" << endl ; 
-        arr[picMan.x][picMan.y] = 'P'; 
-        display() ; 
-        stopFlag = true ; 
-        }
-    } else { 
-        arr[picMan.x][picMan.y] = 'P'; 
     }
 
-    
+    if (arr[picMan.x][picMan.y] = 'S') { 
+        powerCount = 3 ; 
+        arr[picMan.x][picMan.y] = 'P' ;
+        return ; 
+    }
+    if (powerCount > 0 ) { 
+        
+        if (arr[picMan.x][picMan.y] == 'M') { 
+            arr[picMan.x][picMan.y] = 'P' ;
+
+        } else if (arr[picMan.x][picMan.y] == 'B') { 
+            arr[picMan.x][picMan.y] = 'P' ;
+            numOfBills = numOfBills - 1   ; 
+        } else { 
+            arr[picMan.x][picMan.y] = 'P' ;
+        }
+        -- powerCount  ; 
+
+    } else { 
+        if (arr[picMan.x][picMan.y] == 'M') { 
+
+            display() ; 
+            cout << "You Lost!, the monster has eaten You!" << endl ; 
+            stopFlag = true ; 
+            return ; 
+
+        } else if (arr[picMan.x][picMan.y] == 'B') { 
+            arr[picMan.x][picMan.y] = 'P' ;
+            numOfBills = numOfBills - 1 ; 
+        } else { 
+            arr[picMan.x][picMan.y] = 'P' ;
+        } 
+
+    }
 
     }
     void play() { 
@@ -287,14 +307,14 @@ class Game {
             picManMove(x) ; 
 
 
+
         }
     }
  
     Game () { 
+
         initialization() ; 
         play() ; 
-
-
     }
 
 
