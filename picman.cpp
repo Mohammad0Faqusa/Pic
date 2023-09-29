@@ -70,7 +70,24 @@ class Game {
 
         arr[picMan.x][picMan.y] = 'P' ; 
     }
+    void printPowerBills() { 
+       for (int i = 0 ; i < 2 ; i++ ) { 
+            
+            position powerBill  ; 
+            powerBill.x = rand()%7 ; 
+            powerBill.y =rand()%7 ; 
 
+            while (arr[powerBill.x][powerBill.y] == 'B' || arr[powerBill.x][powerBill.y] == 'P' || arr[powerBill.x][powerBill.y] == 'M'|| arr[powerBill.x][powerBill.y] == 'S' ) { 
+                powerBill.x = rand()%7 ; 
+                if(arr[powerBill.x][powerBill.y] == 'B' || arr[powerBill.x][powerBill.y] == 'P' || arr[powerBill.x][powerBill.y] == 'M' || arr[powerBill.x][powerBill.y] == 'S')
+                powerBill.y = rand()%7 ; 
+
+            }
+
+        arr[powerBill.x][powerBill.y] = 'S' ; 
+            
+        }
+    }
 
     void display () { 
         for (int i = 0 ; i < 7 ; i++ ) {
@@ -103,8 +120,9 @@ class Game {
         printBills() ; 
         printMonster() ; 
         printPicMan() ; 
+        printPowerBills() ; 
         hintKeyPress() ; 
-        
+
         
     }
 
@@ -139,17 +157,7 @@ class Game {
 
             case 'r' : 
             
-                if ( !validPosition((monster.x + 1) , monster.y ) || arr[monster.x + 1][monster.y] == 'B'  )
-                    monsterMove() ;
-                else{
-                arr[monster.x][monster.y] = '.' ; 
-                monster.x -= 1 ; 
-                arr[monster.x][monster.y] = 'M' ; 
-                }
-                break ; 
-
-                case 'l' : 
-                if ( !validPosition((monster.x + 1) , monster.y )  || arr[monster.x + 1][monster.y] == 'B'  )
+                if ( !validPosition((monster.x + 1) , monster.y ) || arr[monster.x + 1][monster.y] == 'B'  || arr[monster.x + 1][monster.y] == 'S'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -158,8 +166,18 @@ class Game {
                 }
                 break ; 
 
+                case 'l' : 
+                if ( !validPosition((monster.x - 1) , monster.y )  || arr[monster.x - 1][monster.y] == 'B'  || arr[monster.x - 1][monster.y] == 'S' )
+                    monsterMove() ;
+                else{
+                arr[monster.x][monster.y] = '.' ; 
+                monster.x -= 1 ; 
+                arr[monster.x][monster.y] = 'M' ; 
+                }
+                break ; 
+
                 case 'u' : 
-                if ( !validPosition((monster.x) , (monster.y -1) ) || arr[monster.x][monster.y - 1] == 'B'  )
+                if ( !validPosition((monster.x) , (monster.y - 1) ) || arr[monster.x][monster.y - 1] == 'B' || arr[monster.x ][monster.y - 1] == 'S'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
@@ -168,7 +186,7 @@ class Game {
                 }
                 break ;
                 case 'd' : 
-                if ( !validPosition((monster.x) , (monster.y +1) ) || (arr[monster.x][monster.y + 1] == 'B')  )
+                if ( !validPosition((monster.x) , (monster.y +1) ) || (arr[monster.x][monster.y + 1] == 'B') || arr[monster.x ][monster.y + 1] == 'S'  )
                     monsterMove() ;
                 else{
                 arr[monster.x][monster.y] = '.' ; 
