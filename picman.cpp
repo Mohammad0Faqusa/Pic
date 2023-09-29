@@ -14,7 +14,9 @@ class Game {
     char directions[4]   = {'r' , 'l' , 'u' , 'd'} ; 
     position monster ; 
     position picMan ; 
+    position *arrBill ;
     int numOfBills ; 
+    int indexBill = 0 ; 
 
     int powerCount ; 
 
@@ -31,6 +33,9 @@ class Game {
     void printBills() { 
         
         numOfBills = 10 + rand()%20 ; 
+        arrBill = new position[numOfBills] ;
+    
+
         cout << "number of bills are " << numOfBills << endl ;  
         for (int i = 0 ; i < numOfBills ; i++ ) { 
             
@@ -45,8 +50,12 @@ class Game {
 
             }
 
-      arr[bill.x][bill.y] = 'B' ; 
-            
+        arr[bill.x][bill.y] = 'B' ; 
+        position r ; 
+        r.x = bill.x ; 
+        r.y = bill.y ; 
+
+        arrBill[indexBill++] = r ;
         }
     }
    
@@ -97,7 +106,6 @@ class Game {
 
 
     void display () { 
-        cout << "here is the test " << ++ test ; 
         cout << "the number of Bills : "<< numOfBills << endl ; 
         cout << "Power Count :" << powerCount << endl ; 
 
@@ -272,6 +280,9 @@ class Game {
         } else if (arr[picMan.x][picMan.y] == 'B') { 
             arr[picMan.x][picMan.y] = 'P' ;
             numOfBills = numOfBills - 1   ; 
+            
+            removeBill(getIndexBill(picMan)) ; 
+            
         } else { 
             arr[picMan.x][picMan.y] = 'P' ;
         }
@@ -286,6 +297,7 @@ class Game {
 
         } else if (arr[picMan.x][picMan.y] == 'B') { 
             arr[picMan.x][picMan.y] = 'P' ;
+            removeBill(getIndexBill(picMan)) ; 
             numOfBills = numOfBills - 1 ; 
         } else { 
             arr[picMan.x][picMan.y] = 'P' ;
@@ -294,6 +306,38 @@ class Game {
     }
 
     }
+
+    int getIndexBill(position bill) { 
+        for(int i = 0  ; i < indexBill ; i++) { 
+            if (bill.x == arrBill[i].x && bill.y == arrBill[i].y )
+            return i ; 
+        }
+    }
+
+    void removeBill (int posBill) { 
+        position *newArrBill = new position[--indexBill] ; 
+        for (int i = 0 ; i < posBill ; i++ ) { 
+            newArrBill[i] = arrBill[i] ; 
+
+        }
+        if (posBill < indexBill ) 
+        for (int i = posBill + 1 ; i < indexBill ; i++ ) { 
+             newArrBill[i] = arrBill[i] ; 
+
+        }
+
+        delete [] arrBill ; 
+
+        arrBill = newArrBill ; 
+
+
+    }
+
+    void displayBill() { 
+        for (int i = 0 ; i < indexBill ; i++ ) { 
+            cout << "position (x , y) : " << arrBill[i].y << " " << arrBill[i].x << endl ; 
+        }
+    }
     void play() { 
         while (!stopFlag) { 
             
@@ -301,13 +345,21 @@ class Game {
             
             cout << "Press a key" << endl ; 
             char x ; 
-            cin >> x ; 
+            cin >> x ;
+            while (x == 'b') {
+            displayBill() ; 
+            cin >> x ;} 
+
             while (!keyValidation(x)) { 
                 cout << "please insert valid input" << endl ; 
                 hintKeyPress() ; 
-                cin >> x ; 
-            }
+                cin >> x ;
+                while (x == 'b') {
+                displayBill() ; 
+                cin >> x; } 
 
+            }
+        
             if(!(monster.x == -1 && monster.y == -1))
             monsterMove() ; 
             
