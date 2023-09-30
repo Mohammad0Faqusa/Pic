@@ -1,3 +1,15 @@
+
+//*********************************************************
+/*
+Student work : Mohammad Faqusa. 
+Id : 201014 . 
+
+The GitHub Link : https://github.com/Mohammad0Faqusa/Pic
+
+*/
+//*********************************************************
+
+
 #include <iostream> 
 #include <random> 
 #include <cmath> 
