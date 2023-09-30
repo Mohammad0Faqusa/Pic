@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <random> 
+#include <cmath> 
 using namespace std;
         struct position { 
     int x ; 
@@ -8,6 +9,15 @@ using namespace std;
 class Game { 
 
     public : 
+
+    Game () { 
+        test = 0 ; 
+        initialization() ; 
+        play() ; 
+    }
+
+    private : 
+
     int test ; 
     bool stopFlag = false ; 
     char arr [7][7]; 
@@ -106,6 +116,7 @@ class Game {
 
 
     void display () { 
+        cout << "The herustic value : " << numOfBills + shortestDistance() << endl ; 
         cout << "the number of Bills : "<< numOfBills << endl ; 
         cout << "Power Count :" << powerCount << endl ; 
 
@@ -255,14 +266,7 @@ class Game {
                     break ; 
 
         }
-    
-    if (numOfBills == 0 ) { 
-
-        display() ; 
-        cout << "You Win!" << endl ; 
-        stopFlag = true ; 
-        return ; 
-    }
+  
 
     if (arr[picMan.x][picMan.y] == 'S') { 
         powerCount = 3 ; 
@@ -312,6 +316,7 @@ class Game {
             if (bill.x == arrBill[i].x && bill.y == arrBill[i].y )
             return i ; 
         }
+        return -1  ; 
     }
 
     void removeBill (int posBill) { 
@@ -348,8 +353,43 @@ class Game {
             cout << "position (x , y) : " << arrBill[i].y << " " << arrBill[i].x << endl ; 
         }
     }
+
+    int distance(position r , position m ) { 
+
+        int deltaX = r.x - m.x ; 
+        int deltaY = r.y - m.y ; 
+
+        int distance = sqrt(deltaX * deltaX + deltaY * deltaY) ; 
+
+        return distance ; 
+    }
+
+    int shortestDistance () { 
+        if (!arrBill)
+        return -1 ; 
+        int min = distance(arrBill[0] , picMan) ; 
+
+        for (int i = 0 ; i < indexBill ; i ++ ) { 
+            if (min > distance(arrBill[i] , picMan ))
+                min = distance(arrBill[i] , picMan ) ; 
+
+        }
+        if (min < 0 ) 
+        return 0 ; 
+
+        return min ; 
+    }
     void play() { 
         while (!stopFlag) { 
+
+            if (numOfBills == 0 ) { 
+
+            display() ; 
+            cout << "You Win!" << endl ; 
+            stopFlag = true ; 
+            return ; 
+             }
+          
             
             display() ; 
             
@@ -372,19 +412,16 @@ class Game {
         
             if(!(monster.x == -1 && monster.y == -1))
             monsterMove() ; 
-            
-            picManMove(x) ; 
 
+              
+          
+            picManMove(x) ; 
 
 
         }
     }
  
-    Game () { 
-        test = 0 ; 
-        initialization() ; 
-        play() ; 
-    }
+    
 
 
 }; 
