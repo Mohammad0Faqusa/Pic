@@ -6,6 +6,7 @@ Id : 201014 .
 
 The GitHub Link : https://github.com/Mohammad0Faqusa/Pic
 
+It's my pleasure to see my work at Git Hub , I made it with many commits. 
 */
 //*********************************************************
 
@@ -128,7 +129,7 @@ class Game {
 
 
     void display () { 
-        cout << "The herustic value : " << numOfBills + shortestDistance() << endl ; 
+        cout << "The herustic value : " << numOfBills + shortestDistance() + MonsterDistanceDanger() << endl ; 
         cout << "the number of Bills : "<< numOfBills << endl ; 
         cout << "Power Count :" << powerCount << endl ; 
 
@@ -142,6 +143,15 @@ class Game {
 
     }
 
+    int MonsterDistanceDanger() { 
+        if (monster.x != -1 ) { 
+            return (sqrt(7*7 + 7*7 ) - sqrt(pow((picMan.x - monster.x),2) + pow((picMan.y - monster.y),2)));
+        }
+        if (powerCount > 0)
+        return 0 ; 
+
+        return 0 ; 
+    }
     void hintKeyPress() { 
         cout << "-----------------------------------------------" << endl; 
         cout << "to move right press (r)" << endl ; 
